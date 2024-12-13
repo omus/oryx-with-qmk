@@ -100,6 +100,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // Custom `Delete` by pressing `Shift + Backspace`
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
-const key_override_t *key_overrides[] = {
+
+// Globally define all key overrides
+const key_override_t **key_overrides = (const key_override_t *[]){
     &delete_key_override
 };
