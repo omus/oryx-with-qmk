@@ -62,7 +62,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case ST_MACRO_0:
         if (record->event.pressed) {
-          SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_4))));
+            SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_4))));
         }
         break;
 
@@ -114,5 +114,5 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 
 // https://getreuer.info/posts/keyboards/achordion/index.html#add-achordion-to-your-keymap
 void matrix_scan_user(void) {
-  achordion_task();
+    achordion_task();
 }
