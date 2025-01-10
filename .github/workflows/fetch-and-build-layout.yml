@@ -109,8 +109,8 @@ jobs:
           
           # Find and export built layout          
           normalized_layout_geometry="$(echo "${{ github.event.inputs.layout_geometry }}" | sed 's/\//_/g')"
-          echo built_layout_file=$(find ./qmk_firmware -maxdepth 1 -type f -regex ".*${normalized_layout_geometry}.*\.\(bin\|hex\)$") >> "$GITHUB_OUTPUT"
-          echo normalized_layout_geometry=${normalized_layout_geometry} >> "$GITHUB_OUTPUT"
+          echo built_layout_file=$(find ./qmk_firmware -maxdepth 1 -type f -regex ".*${normalized_layout_geometry}.*\.\(bin\|hex\)$") | tee -a "$GITHUB_OUTPUT"
+          echo normalized_layout_geometry=${normalized_layout_geometry} | tee -a "$GITHUB_OUTPUT"
 
       - name: Upload layout
         uses: actions/upload-artifact@v4
