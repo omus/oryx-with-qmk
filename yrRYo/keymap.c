@@ -58,42 +58,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_achordion(keycode, record)) { return false; }
-    switch (keycode) {
-        case ST_MACRO_0:
-        if (record->event.pressed) {
-            SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_4))));
-        }
-        break;
-
-        case RGB_SLD:
-            if (rawhid_state.rgb_control) {
-                return false;
-            }
-            if (record->event.pressed) {
-                rgblight_mode(1);
-            }
-            return false;
-        case HSV_0_245_245:
-            if (rawhid_state.rgb_control) {
-                return false;
-            }
-            if (record->event.pressed) {
-                rgblight_mode(1);
-                rgblight_sethsv(0,245,245);
-            }
-            return false;
-        case HSV_74_255_206:
-            if (rawhid_state.rgb_control) {
-                return false;
-            }
-            if (record->event.pressed) {
-                rgblight_mode(1);
-                rgblight_sethsv(74,255,206);
-            }
-            return false;
+  if (!process_achordion(keycode, record)) { return false; }
+  switch (keycode) {
+    case ST_MACRO_0:
+    if (record->event.pressed) {
+      SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_4))));
     }
-    return true;
+    break;
+
+    case RGB_SLD:
+      if (rawhid_state.rgb_control) {
+        return false;
+      }
+      if (record->event.pressed) {
+        rgblight_mode(1);
+      }
+      return false;
+    case HSV_0_245_245:
+      if (rawhid_state.rgb_control) {
+        return false;
+      }
+      if (record->event.pressed) {
+        rgblight_mode(1);
+        rgblight_sethsv(0,245,245);
+      }
+      return false;
+    case HSV_74_255_206:
+      if (rawhid_state.rgb_control) {
+        return false;
+      }
+      if (record->event.pressed) {
+        rgblight_mode(1);
+        rgblight_sethsv(74,255,206);
+      }
+      return false;
+  }
+  return true;
 }
 
 
@@ -108,13 +108,13 @@ const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC
 
 // Globally define all key overrides
 const key_override_t **key_overrides = (const key_override_t *[]){
-    &delete_key_override,
-    NULL // Null terminate the array of overrides!
+  &delete_key_override,
+  NULL // Null terminate the array of overrides!
 };
 
 // https://getreuer.info/posts/keyboards/achordion/index.html#add-achordion-to-your-keymap
 void matrix_scan_user(void) {
-    achordion_task();
+  achordion_task();
 }
 
 bool achordion_chord(uint16_t tap_hold_keycode,
