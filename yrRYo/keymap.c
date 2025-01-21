@@ -143,6 +143,11 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
   // repeated. Key repeating is useful e.g. for Vim navigation keys, but can
   // lead to missed triggers in fast typing. Here, returning 0 means we
   // instead want to "force hold" and disable key repeating.
+  //
+  // A good example of wanting to disable this repeating is: `a:`. Since, I
+  // use the key A as shift I need to press A to get `a` then immediately
+  // press A again and hold and then press semicolon to get `:`. With key
+  // repeating enabled I would get `aa`.
   switch (keycode) {
     // Repeating is useful for Vim navigation keys.
     case HOME_J:
