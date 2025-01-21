@@ -1,6 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
-#include "features/achordion.h"
+// #include "features/achordion.h"
 
 #define MOON_LED_LEVEL LED_LEVEL
 #define ML_SAFE_RANGE SAFE_RANGE
@@ -112,24 +112,28 @@ const key_override_t **key_overrides = (const key_override_t *[]){
   NULL // Null terminate the array of overrides!
 };
 
+//
+// Achordion
+//
+
 // https://getreuer.info/posts/keyboards/achordion/index.html#add-achordion-to-your-keymap
-void matrix_scan_user(void) {
-  achordion_task();
-}
+// void matrix_scan_user(void) {
+//   achordion_task();
+// }
 
-bool achordion_chord(uint16_t tap_hold_keycode,
-                     keyrecord_t* tap_hold_record,
-                     uint16_t other_keycode,
-                     keyrecord_t* other_record) {
-  return achordion_opposite_hands(tap_hold_record, other_record);
-}
+// bool achordion_chord(uint16_t tap_hold_keycode,
+//                      keyrecord_t* tap_hold_record,
+//                      uint16_t other_keycode,
+//                      keyrecord_t* other_record) {
+//   return achordion_opposite_hands(tap_hold_record, other_record);
+// }
 
-uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
-  switch (tap_hold_keycode) {
-    case LT(3,KC_SPACE):
-    case LT(2,KC_ENTER):
-      return 0;  // Bypass Achordion for these keys.
-  }
+// uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
+//   switch (tap_hold_keycode) {
+//     case LT(3,KC_SPACE):
+//     case LT(2,KC_ENTER):
+//       return 0;  // Bypass Achordion for these keys.
+//   }
 
-  return 800;  // Otherwise use a timeout of 800 ms.
-}
+//   return 800;  // Otherwise use a timeout of 800 ms.
+// }
