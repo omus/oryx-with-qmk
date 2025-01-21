@@ -1,7 +1,7 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
 
-#define ACHORDION
+// #define ACHORDION
 
 #ifdef ACHORDION
 #include "features/achordion.h"
