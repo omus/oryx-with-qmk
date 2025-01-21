@@ -9,6 +9,9 @@
 
 #define RGB_MATRIX_STARTUP_SPD 60
 
+// https://docs.qmk.fm/features/caps_word#invert-on-shift
+#define CAPS_WORD_INVERT_ON_SHIFT
+
 // Tap-hold configuration for home row mods.
 // https://getreuer.info/posts/keyboards/achordion/index.html#tap-hold-configuration
 #define TAPPING_TERM 175
