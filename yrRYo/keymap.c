@@ -3,7 +3,7 @@
 
 #define ACHORDION
 
-#ifdef
+#ifdef ACHORDION
 #include "features/achordion.h"
 #endif
 
