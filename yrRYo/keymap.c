@@ -112,6 +112,40 @@ const key_override_t **key_overrides = (const key_override_t *[]){
   NULL // Null terminate the array of overrides!
 };
 
+/*
+ * Home row mods (SCAG)
+ */
+
+// https://precondition.github.io/home-row-mods
+
+// My preferred home row mods ordering of SCAG is unusual but works pretty well on macOS
+#define HOME_A MT(MOD_LSFT, KC_A)
+#define HOME_S MT(MOD_LCTL, KC_S)
+#define HOME_D MT(MOD_LALT, KC_D)
+#define HOME_F MT(MOD_LGUI, KC_F)
+
+#define HOME_J MT(MOD_RGUI, KC_J)
+#define HOME_K MT(MOD_RALT, KC_K)
+#define HOME_L MT(MOD_RCTL, KC_L)
+#define HOME_SCLN MT(MOD_RSFT, KC_SCLN)
+
+// https://docs.qmk.fm/tap_hold#quick-tap-term
+uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
+  // If you quickly hold a tap-hold key after tapping it, the tap action is
+  // repeated. Key repeating is useful e.g. for Vim navigation keys, but can
+  // lead to missed triggers in fast typing. Here, returning 0 means we
+  // instead want to "force hold" and disable key repeating.
+  switch (keycode) {
+    // Repeating is useful for Vim navigation keys.
+    case HOME_J:
+    case HOME_K:
+    case HOME_L:
+      return QUICK_TAP_TERM;  // Enable key repeating.
+    default:
+      return 0;  // Otherwise, force hold and disable key repeating.
+  }
+}
+
 //
 // Achordion
 //
