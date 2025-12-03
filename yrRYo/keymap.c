@@ -127,15 +127,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
  * Custom QMK code *
  *******************/
 
+// https://github.com/zsa/qmk_firmware/tree/firmware25
+
 // Custom `Delete` by pressing `Shift + Backspace`
-// https://github.com/qmk/qmk_firmware/blob/eee0384167b965c60120e1222bc24c0b40cadac4/docs/feature_key_overrides.md
-// WARNING: Latest documentation example doesn't work.
+// https://docs.qmk.fm/features/key_overrides#simple-example
+// https://github.com/qmk/qmk_firmware/blob/7ecdb574147fb67a89c46609161ca08891a103c0/docs/features/key_overrides.md
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DELETE);
 
 // Globally define all key overrides
-const key_override_t **key_overrides = (const key_override_t *[]){
-  &delete_key_override,
-  NULL // Null terminate the array of overrides!
+const key_override_t *key_overrides[] = {
+    &delete_key_override
 };
 
 /*
