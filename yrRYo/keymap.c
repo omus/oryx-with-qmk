@@ -8,10 +8,12 @@
 #endif
 
 #define MOON_LED_LEVEL LED_LEVEL
-#define ML_SAFE_RANGE SAFE_RANGE
+#ifndef ZSA_SAFE_RANGE
+#define ZSA_SAFE_RANGE SAFE_RANGE
+#endif
 
 enum custom_keycodes {
-  RGB_SLD = ML_SAFE_RANGE,
+  RGB_SLD = ZSA_SAFE_RANGE,
   HSV_0_245_245,
   HSV_74_255_206,
   ST_MACRO_0,
@@ -20,12 +22,12 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_moonlander(
-    KC_NO,          KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_LEFT,                                        KC_RIGHT,       KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_NO,          
-    KC_GRAVE,       KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           TG(1),                                          TG(1),          KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_BSLS,        
-    CW_TOGG,        MT(MOD_LSFT, KC_A),MT(MOD_LCTL, KC_S),MT(MOD_LALT, KC_D),MT(MOD_LGUI, KC_F),LT(4,KC_G),     KC_HYPR,                                                                        KC_MEH,         KC_H,           MT(MOD_RGUI, KC_J),MT(MOD_RALT, KC_K),MT(MOD_RCTL, KC_L),MT(MOD_RSFT, KC_SCLN),KC_QUOTE,       
+    KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_LEFT,                                        KC_RIGHT,       KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_TRANSPARENT, 
+    KC_GRAVE,       KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_NO,                                          KC_NO,          KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_BSLS,        
+    CW_TOGG,        MT(MOD_LSFT, KC_A),MT(MOD_LCTL, KC_S),MT(MOD_LALT, KC_D),MT(MOD_LGUI, KC_F),KC_G,           MO(4),                                                                          KC_MEH,         KC_H,           MT(MOD_RGUI, KC_J),MT(MOD_RALT, KC_K),MT(MOD_RCTL, KC_L),MT(MOD_RSFT, KC_SCLN),KC_QUOTE,       
     KC_EQUAL,       KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,                                           KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_MINUS,       
-    KC_NO,          CW_TOGG,        ST_MACRO_0,     KC_DELETE,      MO(1),          MO(2),                                                                                                          MT(MOD_LCTL, KC_ESCAPE),MO(1),          KC_TRANSPARENT, KC_LBRC,        KC_RBRC,        KC_NO,          
-    LT(3,KC_SPACE), KC_BSPC,        KC_LEFT_GUI,                    KC_LEFT_ALT,    KC_TAB,         LT(2,KC_ENTER)
+    KC_NO,          CW_TOGG,        ST_MACRO_0,     KC_DELETE,      MO(1),          MO(3),                                                                                                          KC_ESCAPE,      MO(1),          KC_TRANSPARENT, KC_LBRC,        KC_RBRC,        KC_NO,          
+    LT(3, KC_SPACE),KC_BSPC,        MO(4),                          TG(2),          KC_TAB,         LT(2, KC_ENTER)
   ),
   [1] = LAYOUT_moonlander(
     KC_ESCAPE,      KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         
@@ -68,11 +70,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   #endif
 
   switch (keycode) {
+    case QK_MODS ... QK_MODS_MAX:
+      // Mouse keys with modifiers work inconsistently across operating systems, this makes sure that modifiers are always
+      // applied to the mouse key that was pressed.
+      if (IS_MOUSE_KEYCODE(QK_MODS_GET_BASIC_KEYCODE(keycode))) {
+        if (record->event.pressed) {
+          add_mods(QK_MODS_GET_MODS(keycode));
+          send_keyboard_report();
+          wait_ms(2);
+          register_code(QK_MODS_GET_BASIC_KEYCODE(keycode));
+          return false;
+        } else {
+          wait_ms(2);
+          del_mods(QK_MODS_GET_MODS(keycode));
+        }
+      }
+      break;
     case ST_MACRO_0:
-    if (record->event.pressed) {
-      SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_4))));
-    }
-    break;
+      if (record->event.pressed) {
+        SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_4))));
+      }
+      break;
 
     case RGB_SLD:
       if (rawhid_state.rgb_control) {
