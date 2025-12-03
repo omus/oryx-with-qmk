@@ -17,3 +17,7 @@
 #define TAPPING_TERM 175
 #define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM_PER_KEY
+
+// Mouse keys
+// https://docs.qmk.fm/features/mouse_keys
+#define MK_KINETIC_SPEED
